@@ -21,16 +21,20 @@ namespace ThreadSample
             //thread.Start();
             #endregion
 
-            Bank myBank = new Bank("UniverseBank", 10000, 2);
-            myBank.Name = "BankUniverse";
-            myBank.Money = 100;
-            myBank.Percent = 1;
-            Console.WriteLine("Свойства изменены. Данные записываются в файл...");
-            Console.ReadLine();
             #region 2 Task
+            //Bank myBank = new Bank("UniverseBank", 10000, 2);
+            //myBank.Name = "BankUniverse";
+            //myBank.Money = 100;
+            //myBank.Percent = 1;
+            //Console.WriteLine("Свойства изменены. Данные записываются в файл...");
+            //Console.ReadLine();
+            #endregion
 
+            #region 3 Task
 
             #endregion
+
+
         }
 
 
@@ -88,25 +92,17 @@ namespace ThreadSample
                 string path = "dataBank.txt";
                 string data = $"Bank name: {Name} | Money: {Money} | Percent:{Percent}%";
 
-                if (!File.Exists(path))
-                {
-                    using (StreamWriter writer = File.CreateText(path))
-                    {
-                        writer.WriteLine(data);
-                    }
-                    Console.WriteLine("Файл был создан и записан.");
-                }
-                else
-                {
-                    Console.WriteLine("Файл уже существует.");
-                }
+                File.WriteAllText(path, data);
 
             }
 
             private void ThreadLog() { 
 
                 Thread log = new Thread(WriteToFile);
+                int num = 100;
+                Thread.Sleep(num);
                 log.Start();
+                num *= 3;
                
             }
 
