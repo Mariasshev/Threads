@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 namespace ThreadSample
@@ -31,9 +32,33 @@ namespace ThreadSample
             #endregion
 
             #region 3 Task
-
+            Stopwatch stopwatch = new Stopwatch();
+            Thread game = new Thread(Game);
+            game.Start();
+            do
+            {
+                stopwatch.Start();
+                Console.ReadKey();
+                game.Suspend();
+                stopwatch.Stop();
+                Console.WriteLine($"Время выполнения: {stopwatch.Elapsed.TotalMilliseconds} миллисекунд");
+                game.Resume();
+            } while (Console.ReadKey().Key != ConsoleKey.Enter);
             #endregion
 
+
+        }
+
+        static void Game()
+        {
+            Random random = new Random();  
+
+            for (int i = 0; i < 100; i++)
+            {
+                char randomLetter = (char)random.Next('A', 'Z' + 1);
+                Console.WriteLine(randomLetter);
+                Thread.Sleep(3000);
+            }
 
         }
 
